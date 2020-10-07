@@ -36,7 +36,7 @@ function anotherExample(firstLine, lastLine) {
 \`\`\`
 
 ## Images
-![React Logo with Text](https://www.lavalamp.biz/wp-content/uploads/2016/01/Lavalamplab_React_logo-BW.png)
+![React Logo with Text](https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png)
 
 ## Horizontal Rules
 ___
