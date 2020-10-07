@@ -1,0 +1,236 @@
+@import url("https://fonts.googleapis.com/css?family=Orbitron");
+$primary-color: #29b6f6;
+$text-color: #212121;
+#app {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+#container {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  height: 95vh;
+  border: solid $primary-color 1px;
+  border-radius: 4px;
+  z-index: 1;
+  overflow: hidden;
+}
+
+@mixin action-bars {
+  position: absolute;
+  background: $primary-color;
+  color: $text-color;
+  line-height: 30px;
+  height: 30px;
+  width: 50%;
+}
+//Header Bar
+#action-bar-header {
+  @include action-bars;
+  right: 0px;
+  width: 100%;
+  min-width: 200px; //Sets header max shrink width
+  font-family: "Orbitron";
+  font-size: 100%;
+  font-weight: bold;
+  text-align: center;
+  padding-right: 1em;
+  z-index: 2;
+  animation: width 1s ease forwards 4s;
+  span {
+    position: relative;
+    visibility: visible;
+    color: $text-color;
+    animation: glitch 1500ms linear 1s;
+    span {
+      overflow: hidden;
+    }
+    span:after {
+      content: "";
+      position: absolute;
+      right: 100%;
+      top: 50%;
+      width: 0%;
+      height: 2px;
+      background: black;
+      animation: line-in-out 1s ease-in-out;
+    }
+    @keyframes line-in-out {
+      50% {
+        right: 0px;
+        width: 100%;
+      }
+      100% {
+        width: 0%;
+        right: 0px;
+      }
+    }
+  }
+}
+#action-bar-header:before {
+  content: "";
+  position: absolute;
+  background: $primary-color;
+  top: 0px;
+  right: 95%;
+  width: 15%;
+  height: 100%;
+  transform-origin: bottom right;
+  transform: skew(-30deg);
+  z-index: -1;
+  animation: skew 500ms ease-out forwards 4s;
+}
+
+//Settings Bar
+#action-bar-settings {
+  @include action-bars;
+  //TODO:Fix IE bottom property(does not work in IE)
+  bottom: calc(100% - 30px);
+  z-index: 1;
+  animation: down 1s ease-out forwards 3s, width 500ms ease-out forwards 4s;
+  img {
+    opacity: 0;
+    height: 95%;
+    box-sizing: border-box;
+    transition: transform 1s ease 1s;
+    animation: loadicons 500ms ease-in forwards 4.5s;
+  }
+  button {
+    background: $primary-color;
+    position: absolute;
+    width: 50px;
+    height: 30px;
+    border: none;
+    outline: none;
+    transform-origin: bottom right;
+    transform: skew(30deg);
+    transition: transform 500ms ease 1s;
+    z-index: -2;
+    img {
+      transform: skew(-30deg);
+      transition: none;
+    }
+  }
+
+  button:hover {
+    background: $primary-color + 20; //lighten on button hover
+  }
+  button:active {
+    background: $primary-color - 20; //darken on button press
+  }
+  #dark-mode {
+    left: 0px;
+  }
+  #clear-all {
+    left: 0px;
+  }
+}
+#action-bar-settings:hover,
+#action-bar-settings:active {
+  img {
+    transition-delay: 0s;
+    transform: rotate(360deg);
+  }
+  button {
+    transition-delay: 0s;
+    img {
+      transform: skew(-30deg);
+    }
+  }
+  #dark-mode {
+    transform: translateX(55px)skew(30deg);
+  }
+  #clear-all {
+    transition-delay: 100ms;
+    transform: translateX(112px)skew(30deg);
+  }
+}
+#action-bar-settings:before {
+  content: "";
+  position: absolute;
+  background: $primary-color;
+  top: 0px;
+  right: -10px;
+  width: 100px;
+  height: 100%;
+  transform-origin: bottom right;
+  transform: skew(-30deg);
+  z-index: -1;
+  animation: skew 500ms ease-out forwards 4s;
+}
+
+//Animation definitions
+@keyframes glitch {
+  20% {
+    text-shadow: -5px 2px cyan;
+  }
+  40% {
+    text-shadow: 3px -2px lime;
+  }
+  60% {
+    text-shadow: -2px 1px #00ff0b;
+  }
+  80% {
+    text-shadow: 1px 1px #ff000b;
+  }
+  100% {
+    text-shadow: none;
+  }
+}
+@keyframes down {
+  100% {
+    bottom: 0px;
+  }
+}
+@keyframes width {
+  100% {
+    width: 30px;
+  }
+}
+@keyframes skew {
+  100% {
+    transform-origin: center;
+    transform: skew(30deg);
+  }
+}
+@keyframes loadicons {
+  100% {
+    opacity: 1;
+  }
+}
+
+@mixin panel {
+  height: 0px;
+  width: 50%;
+  max-height: 100%;
+  padding: 30px 10px 30px 10px;
+  box-sizing: border-box;
+  opacity: 0;
+  animation: reveal-panel 1s ease-out forwards 3s;
+  transition: background 200ms ease-out, color 200ms ease-out;
+}
+//Panel Reveal Animation
+@keyframes reveal-panel {
+  100% {
+    height: 100%;
+    overflow: auto;
+    opacity: 1;
+  }
+}
+
+#editor {
+  @include panel;
+  min-width: 300px;
+  border: none;
+  outline: none;
+  overflow: hidden;
+  border-right: solid 1px $primary-color;
+}
+
+#preview {
+  @include panel;
+  flex-grow: 2;
+  border: none;
+  overflow: auto;
+}
